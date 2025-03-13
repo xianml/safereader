@@ -1,0 +1,52 @@
+# .github/workflows/build.yml
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+        
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+    
+    - name: Build
+      run: |
+        GOOS=linux GOARCH=amd64 go build -o bin/safereader-linux-amd64 ./safereader
+        GOOS=windows GOARCH=amd64 go build -o bin/safereader-windows-amd64.exe ./safereader
+        GOOS=darwin GOARCH=amd64 go build -o bin/safereader-darwin-amd64 ./safereader
+    
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          bin/safereader-linux-amd64
+          bin/safereader-windows-amd64.exe
+          bin/safereader-darwin-amd64
