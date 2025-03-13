@@ -39,9 +39,21 @@ jobs:
     
     - name: Build
       run: |
-        GOOS=linux GOARCH=amd64 go build -o bin/safereader-linux-amd64 ./safereader
-        GOOS=windows GOARCH=amd64 go build -o bin/safereader-windows-amd64.exe ./safereader
-        GOOS=darwin GOARCH=amd64 go build -o bin/safereader-darwin-amd64 ./safereader
+        mkdir -p bin
+        GOOS=linux GOARCH=amd64 go build -o bin/safereader-linux-amd64 ./safereader.go
+        GOOS=windows GOARCH=amd64 go build -o bin/safereader-windows-amd64.exe ./safereader.go
+        GOOS=darwin GOARCH=amd64 go build -o bin/safereader-darwin-amd64 ./safereader.go
+    
+    # Add artifacts upload step
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: safereader-binaries
+        path: |
+          bin/safereader-linux-amd64
+          bin/safereader-windows-amd64.exe
+          bin/safereader-darwin-amd64
+        retention-days: 5
     
     - name: Release
       uses: softprops/action-gh-release@v1
