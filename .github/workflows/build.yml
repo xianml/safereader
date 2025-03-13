@@ -59,3 +59,4 @@ jobs:
           bin/safereader-linux-amd64
           bin/safereader-windows-amd64.exe
           bin/safereader-darwin-amd64
+        tag_name: latest
