@@ -1,5 +1,3 @@
-# Contents of /safereader/safereader/README.md
-
 # SafeReader
 
 SafeReader is a Go application designed for reading and parsing safetensors file efficiently. It provides a simple interface for handling tensor data and metadata.
