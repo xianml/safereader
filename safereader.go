@@ -114,7 +114,7 @@ func main() {
 
 	// 输出张量信息
 	fmt.Println("\n------------------------ Tensor Information -------------------------")
-	fmt.Printf("%-40s %-8s %-20s %-20s\n", "Tensor Name", "Dtype", "Shape", "Data Offsets")
+	fmt.Printf("%-80s %-8s %-20s %-20s\n", "Tensor Name", "Dtype", "Shape", "Data Offsets")
 	fmt.Println(strings.Repeat("-", 92))
 
 	// 收集并排序张量名称
@@ -140,11 +140,11 @@ func main() {
 		
 		// 如果张量名称过长，进行截断处理
 		displayName := tensorName
-		if len(tensorName) > 37 {
-			displayName = tensorName[:34] + "..."
+		if len(tensorName) > 77 {
+			displayName = tensorName[:74] + "..."
 		}
 		
-		fmt.Printf("%-40s %-8s %-20s %-20s\n", 
+		fmt.Printf("%-80s %-8s %-20s %-20s\n", 
 			displayName, 
 			metadata.Dtype, 
 			shapeStr, 
